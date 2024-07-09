@@ -2,6 +2,9 @@
 
 This project aims to detect fraudulent credit card transactions using machine learning techniques. It addresses the challenge of highly imbalanced data, where legitimate transactions significantly outnumber fraudulent ones.
 
+#### We compare the result of two resampling techniques and use it for 3 different classification models.
+##### Comparision is made on the basis of metrics like Precision , Recall , Accuracy and F1 Score.
+
 ## Dataset
 
 [Link to the Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
