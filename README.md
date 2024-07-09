@@ -69,10 +69,56 @@ The project follows these key steps:
 - Handle missing values
 - Normalize transaction amounts
 
-2. **Addressing Class Imbalance:**
-- Undersampling: Randomly select a subset of legitimate transactions
-- Oversampling (SMOTE): Generate synthetic samples for fraudulent transactions
+### Normalization with StandardScaler
 
+We used StandardScaler from scikit-learn to normalize the 'Amount' feature. This step is crucial because:
+
+   1. It scales the 'Amount' feature to have zero mean and unit variance.
+   2. It ensures that the 'Amount' feature doesn't dominate other features due to its potentially large scale.
+
+```python
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+df['Amount'] = scaler.fit_transform(df['Amount'].values.reshape(-1, 1))
+```
+
+2. **Addressing Class Imbalance:**
+   #### 1.Undersampling: Randomly select a subset of legitimate transactions
+      To address the severe class imbalance (0.172% fraudulent transactions), we employed undersampling using RandomUnderSampler from imbalanced-learn. This technique randomly removes non-fraudulent transactions until their number matches fraudulent ones, creating a balanced dataset.
+Advantages include reduced computational time and improved fraud detection. However, it risks losing important information from the majority class. After undersampling, we have 492 samples of each class (50% fraudulent), down from the original 284,807 total transactions. This balanced dataset allows our models to learn without being overwhelmed by the majority class.
+
+
+
+
+
+   #### 2.Oversampling (SMOTE): Generate synthetic samples for fraudulent transactions
+
+
+
+
+
+      SMOTE creates synthetic examples of the minority class (fraudulent transactions) to balance the dataset.
+
+      ```python
+      from imblearn.over_sampling import SMOTE
+      
+      smote = SMOTE(random_state=42)
+      X_smote, y_smote = smote.fit_resample(X, y)
+      ```
+      This technique:
+         1.Generates new, synthetic fraudulent transactions based on the existing ones.
+         2.Helps the model learn the characteristics of fraudulent transactions more effectively.
+         3.Can lead to overfitting if not used carefully.
+      
+      ![1696111482416](https://github.com/priyanshuanandd/AspireNex/assets/112546168/32130e68-978d-4d8b-84c5-7bdd4be05679)
+      By applying both techniques separately, we created two balanced datasets:
+      
+         1.An undersampled dataset with fewer total instances.
+         2.An oversampled dataset with more total instances.
+      
+      This approach allows us to compare model performance on differently balanced datasets and choose the most effective method for our fraud detection task.
+      
 3. **Model Training and Evaluation:**
 - Train and evaluate various classifiers:
   - Logistic Regression
