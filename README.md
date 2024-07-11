@@ -1,4 +1,4 @@
-# Credit Card Fraud Detection
+# Credit Card Fraud Detection Using Python
 
 This project aims to detect fraudulent credit card transactions using machine learning techniques. It addresses the challenge of highly imbalanced data, where legitimate transactions significantly outnumber fraudulent ones.
 
